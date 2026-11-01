@@ -42,7 +42,12 @@ WEEKDAYS_HE = ["שני", "שלישי", "רביעי", "חמישי", "שישי", "
 def fetch_calendar() -> str:
     if os.environ.get("ICAL_FILE"):
         return Path(os.environ["ICAL_FILE"]).read_text(encoding="utf-8")
-    req = urllib.request.Request(os.environ["MOODLE_ICAL_URL"], headers={"User-Agent": "moodle-bot"})
+    req = urllib.request.Request(os.environ["MOODLE_ICAL_URL"], headers={
+        # Some university firewalls reject requests that don't look like a browser
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+        "Accept": "text/calendar,*/*",
+    })
     with urllib.request.urlopen(req, timeout=60) as resp:
         return resp.read().decode("utf-8", errors="replace")
 
