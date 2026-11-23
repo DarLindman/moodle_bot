@@ -46,6 +46,17 @@ STATE_FILE = Path(os.environ.get("STATE_FILE", Path(__file__).with_name("state.j
 DRY_RUN = os.environ.get("DRY_RUN") == "1"
 WEEKDAYS_HE = ["שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת", "ראשון"]
 
+# Moodle labels events with the course number; show these names instead.
+# Matched by digits only, so "361.1.1081", "361-1-1081" and "36111081-2027"
+# all match. A course missing here is shown as Moodle sends it.
+COURSE_NAMES = {
+    "361.1.1081": "מבוא מתמטי למהנדסים",
+    "212.1.6201": "דיסקרטית",
+    "212.1.9671": "חדו״א 1",
+    "212.1.9511": "לינארית 1",
+    "203.1.1371": "פיסיקה 1",
+}
+
 
 # ---------- iCal ----------
 
@@ -117,8 +128,16 @@ def parse_events(text: str) -> list[dict]:
     for e in events:
         e["id"] = hashlib.sha256(e["uid"].encode()).hexdigest()[:16]
         e.setdefault("title", "(ללא שם)")
-        e.setdefault("course", "")
+        e["course"] = course_name(e.get("course", ""))
     return events
+
+
+def course_name(label: str) -> str:
+    digits = re.sub(r"\D", "", label)
+    for number, name in COURSE_NAMES.items():
+        if digits and re.sub(r"\D", "", number) in digits:
+            return name
+    return label
 
 
 def event_link(e: dict) -> str | None:
