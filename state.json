@@ -1,34 +1,83 @@
 {
  "done": [],
+ "keepalive": "2026-11-23",
  "seen": {
-  "14b8f79b5ccba07f": [
-   24,
-   72
-  ],
-  "1b4c66d8c639720b": [],
-  "1ee7d5b7ea769fb5": [],
-  "239bee3055e38dbc": [],
-  "350ec02a89945668": [],
-  "3e2e5d8a832dd97e": [],
-  "42b6c1e6c2f6909d": [],
-  "4bc96e774cef16bb": [
-   72,
-   24
-  ],
-  "53c8686943459b9f": [],
-  "627ce6a233c1d956": [],
-  "9428bd2ecf6aafd8": [],
-  "a0230b6fcfeaa981": [
-   72,
-   24
-  ],
-  "a3508d78c650d404": [],
-  "b23f0c97506b8191": [],
-  "c4cc60f844b12385": [],
-  "d2b28bb8432f8ee0": [
-   72,
-   24
-  ]
+  "14b8f79b5ccba07f": {
+   "announced": true,
+   "due": 1795125540,
+   "sent": [
+    24,
+    72
+   ]
+  },
+  "1b4c66d8c639720b": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "1ee7d5b7ea769fb5": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "239bee3055e38dbc": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "350ec02a89945668": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "3e2e5d8a832dd97e": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "42b6c1e6c2f6909d": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "53c8686943459b9f": {
+   "announced": true,
+   "due": 1795903140,
+   "sent": []
+  },
+  "627ce6a233c1d956": {
+   "announced": true,
+   "due": 1795989540,
+   "sent": []
+  },
+  "9428bd2ecf6aafd8": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "a0230b6fcfeaa981": {
+   "announced": true,
+   "due": 1795072200,
+   "sent": [
+    24,
+    72
+   ]
+  },
+  "a3508d78c650d404": {
+   "announced": true,
+   "due": 1796158800,
+   "sent": []
+  },
+  "b23f0c97506b8191": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  },
+  "c4cc60f844b12385": {
+   "announced": true,
+   "due": 1800050340,
+   "sent": []
+  }
  },
- "tg_offset": 402964426
+ "tg_offset": 402964429
 }
