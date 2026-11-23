@@ -195,8 +195,8 @@ def fmt_left(due: datetime, now: datetime) -> str:
     return f"עוד {hours // 24} ימים"
 
 
-def fmt_event(e: dict, now: datetime) -> str:
-    course = f"\n📚 {html.escape(e['course'])}" if e["course"] else ""
+def fmt_event(e: dict, now: datetime, show_course: bool = True) -> str:
+    course = f"\n📚 {html.escape(e['course'])}" if e["course"] and show_course else ""
     url = event_link(e)
     link = f'\n🔗 <a href="{html.escape(url, quote=True)}">פתח במודל</a>' if url else ""
     return (f"<b>{html.escape(e['title'])}</b>{course}\n"
@@ -219,11 +219,26 @@ def upcoming(events: list[dict], state: dict, now: datetime) -> list[dict]:
                   key=lambda e: e["due"])
 
 
+def by_course(items: list[dict]) -> list[dict]:
+    """Group by course (the course with the nearest deadline first), by date inside."""
+    first_due = {}
+    for e in items:
+        first_due.setdefault(e["course"], e["due"])
+    # Events without a course go last
+    return sorted(items, key=lambda e: (e["course"] == "", first_due[e["course"]], e["due"]))
+
+
 def numbered(items: list[dict], now: datetime) -> list[str]:
-    parts = []
+    """Numbered entries under a course heading; items must come from by_course()."""
+    parts, course = [], None
     for i, e in enumerate(items, 1):
         urgent = "🔴 " if e["due"] - now <= timedelta(hours=72) else ""
-        parts.append(f"{i}. {urgent}{fmt_event(e, now)}")
+        entry = f"{i}. {urgent}{fmt_event(e, now, show_course=False)}"
+        if e["course"] != course:
+            course = e["course"]
+            heading = html.escape(course) if course else "בלי קורס"
+            entry = f"📚 <b><u>{heading}</u></b>\n{entry}"
+        parts.append(entry)
     return parts
 
 
@@ -231,7 +246,7 @@ DONE_HINT = "<i>הגשת? לחץ למטה על המספר של המטלה, ול�
 
 
 def task_list(events: list[dict], state: dict, now: datetime) -> tuple[str, list | None]:
-    items = upcoming(events, state, now)
+    items = by_course(upcoming(events, state, now))
     if not items:
         return "🎉 אין מטלות פתוחות כרגע!", None
     parts = [f"📋 <b>יש לך {len(items)} מטלות פתוחות:</b>", *numbered(items, now), DONE_HINT]
@@ -239,7 +254,8 @@ def task_list(events: list[dict], state: dict, now: datetime) -> tuple[str, list
 
 
 def weekly_digest(events: list[dict], state: dict, now: datetime) -> tuple[str, list | None]:
-    items = [e for e in upcoming(events, state, now) if e["due"] <= now + timedelta(days=7)]
+    items = by_course([e for e in upcoming(events, state, now)
+                       if e["due"] <= now + timedelta(days=7)])
     if not items:
         return "☀️ <b>בוקר טוב!</b> אין הגשות השבוע 🎉", None
     parts = [f"☀️ <b>בוקר טוב! השבוע מוגשות {len(items)} מטלות:</b>",
