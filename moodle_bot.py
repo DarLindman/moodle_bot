@@ -122,16 +122,14 @@ def parse_events(text: str) -> list[dict]:
 
 
 def event_link(e: dict) -> str | None:
-    """Direct link if the calendar has one, else that day in the Moodle calendar."""
-    if e.get("url", "").startswith(("https://", "http://")):
-        return e["url"]
-    parts = urllib.parse.urlsplit(os.environ.get("MOODLE_ICAL_URL", ""))
-    if parts.scheme not in ("http", "https") or not parts.netloc:
-        return None
-    # The export URL is <moodle root>/calendar/export_execute.php; keep the root's path
-    root = parts.path.split("/calendar/")[0] if "/calendar/" in parts.path else ""
-    return (f"{parts.scheme}://{parts.netloc}{root}/calendar/view.php"
-            f"?view=day&time={int(e['due'].timestamp())}")
+    """Direct link to the assignment, only if the calendar export includes one.
+
+    BGU's export has none (the calendar UID is the calendar event id, not the
+    assignment's), and a link to the calendar day opens an empty page, so
+    without a URL no link is shown.
+    """
+    url = e.get("url", "")
+    return url if url.startswith(("https://", "http://")) else None
 
 
 # ---------- time helpers ----------
