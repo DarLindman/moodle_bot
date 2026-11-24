@@ -12,14 +12,6 @@
  ],
  "keepalive": "2026-11-23",
  "seen": {
-  "14b8f79b5ccba07f": {
-   "announced": true,
-   "due": 1795125540,
-   "sent": [
-    24,
-    72
-   ]
-  },
   "1b4c66d8c639720b": {
    "announced": true,
    "due": 1800050340,
