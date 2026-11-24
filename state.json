@@ -65,14 +65,6 @@
    "due": 1800050340,
    "sent": []
   },
-  "a0230b6fcfeaa981": {
-   "announced": true,
-   "due": 1795072200,
-   "sent": [
-    24,
-    72
-   ]
-  },
   "a3508d78c650d404": {
    "announced": true,
    "due": 1796158800,
@@ -89,7 +81,7 @@
    "sent": []
   },
   "d732dea811617641": {
-   "announced": false,
+   "announced": true,
    "due": 1800655140,
    "sent": []
   }
